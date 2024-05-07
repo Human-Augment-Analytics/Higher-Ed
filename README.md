@@ -27,7 +27,8 @@ Scripts here are currently being tested/documented by the person whose directory
 Please refer to [Picking Up Files](#picking-up-files) above for instructions on how to properly add files to the Thrift Shop
 
 ## Working on Thrift Shop files
-Download the parent folder for the project to your local machine and perform all work on your local machine.
+Navigate to the parent folder for the project you plan to work on and copy the url at the top of your browser.
+Open [https://download-directory.github.io/](https://download-directory.github.io/) and paste the link to download a Zip of that directory. Perform all work locally on your machine.
 
 ## Saving work to Thrift Shop
 Open your directory within Thrift Shop.
