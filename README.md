@@ -31,4 +31,8 @@ Navigate to the parent folder for the project you plan to work on and copy the u
 Open [https://download-directory.github.io/](https://download-directory.github.io/) and paste the link to download a Zip of that directory. Perform all work locally on your machine.
 
 ## Saving work to Thrift Shop
-Open your directory within Thrift Shop.
+Open your directory within Thrift Shop. Click 'Add file' and 'Upload file' and/or just drag the project parent folder into the page. Please include a relevant commit message and description describing what you did. 
+***Double Check the Repository to make sure that the folder organization is correct and that your changes were uploaded***
+If anything is wrong please clean up the folder organization and write that as the commit message. An example folder should be:
+
+**Thrift Shop/GeorgeBurdell/TestProject** with all project files within.
