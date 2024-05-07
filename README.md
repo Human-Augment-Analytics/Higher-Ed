@@ -1,6 +1,6 @@
 # Junkyard
 
-Scripts here are untested/undocumented and someone needs to pick them up to do so. 
+Scripts here are untested/undocumented and someone needs to pick them for testing/documentation. 
 
 ## Adding Files to Junkyard
 ***Make sure you are on the Junkyard branch***
