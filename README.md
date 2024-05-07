@@ -4,6 +4,7 @@ Scripts here are untested/undocumented and someone needs to pick them up to do s
 
 ## Adding Files to Junkyard
 ***Make sure you are on the Junkyard branch***
+
 Simply click 'Add file' next to 'About' then click 'Upload files' if you have the file already completed (recommended). Or you can click 'Create new file' if you want to create an empty file for you to write into (familiarity with Git commands is highly recommended for this option).
 
 ## Picking Up Files
