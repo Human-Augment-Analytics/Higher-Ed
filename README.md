@@ -65,4 +65,4 @@ Finally, navigate to the project folder within your subdirectory of Thrift Shop,
 Scripts here have been abandoned for the time being.
 
 ## Moving from Junkyard/Thrift Shop to Graveyard
-Please refer to [Picking Up Files](#picking-up-files) to see how to download a project. Now navigate to Graveyward, click 'Add file', then 'Upload files' and/or drag the parent folder into the window.
+Please refer to [Picking Up Files](#picking-up-files) to see how to download a project. Now navigate to Graveyard, click 'Add file', then 'Upload files' and/or drag the parent folder into the window.
