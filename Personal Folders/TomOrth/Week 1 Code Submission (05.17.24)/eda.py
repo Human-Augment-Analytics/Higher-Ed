@@ -16,9 +16,6 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download("names")
 
-import spacy
-
-nlp = spacy.load("en_core_web_md")
 
 def remove_stopwords(text):
     text = text.lower()
