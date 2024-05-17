@@ -17,7 +17,15 @@ nltk.download('stopwords')
 nltk.download("names")
 
 
-def remove_stopwords(text):
+def remove_stopwords(text: str) -> str:
+    """Method to remove stopwords and other items from text,
+
+    Args:
+        text: The text from the pandas row to process.
+    
+    Returns:
+        The processed text.
+    """
     text = text.lower()
     stopwords = nltk.corpus.stopwords.words('english')
     names = nltk.corpus.names
@@ -27,15 +35,33 @@ def remove_stopwords(text):
     return " ".join([word for word in text.split(" ") if word not in stopwords])
 
 class FrequencyUtils:
+    """Class for frequency metrics."""
 
-    def __init__(self, male_df: pd.DataFrame, female_df: pd.DataFrame, column: str, save_path: Union[str, Path], name: str):
+    def __init__(
+        self,
+        male_df: pd.DataFrame,
+        female_df: pd.DataFrame,
+        column: str,
+        save_path: Union[str, Path],
+        name: str
+    ):
+        """Initializes an instance of FrequencyUtils.
+        
+        Args:
+            male_df: The dataframe with male data.
+            female_df: The dataframe with female data.
+            column: The column to focus on for the plot.
+            save_path: The location to save the plot.
+            name: The name of the plot for saving.
+        """
         self.female_df = female_df
         self.male_df = male_df
         self.column = column
         self.save_path = Path(save_path)
         self.name = name
     
-    def execute(self):
+    def execute(self) -> None:
+        """Executes the plot generation."""
 
         self.female_df["mean_word_count"] = self.female_df[self.column].map(lambda letter: len(letter.split()))
         female_mean_word_count = self.female_df["mean_word_count"].mean()
@@ -53,14 +79,31 @@ class FrequencyUtils:
         plt.clf()
 
 class WordCloudUtils:
+    """Class to generate a word cloud."""
 
-    def __init__(self, df: pd.DataFrame, save_path: str, column: Union[str, Path], name: str):
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        save_path: Union[str, Path],
+        column: str,
+        name: str
+    ):
+        """Initializes instance of WordCloudUtils.
+
+        Args:
+            male_df: The dataframe with male data.
+            female_df: The dataframe with female data.
+            column: The column to focus on for the plot.
+            save_path: The location to save the plot.
+            name: The name of the plot for saving.
+        """
         self.df = df
         self.save_path = Path(save_path)
         self.column = column
         self.name = name
 
-    def execute(self):
+    def execute(self) -> None:
+        """Executes word cloud generation."""
         stopwords = set(STOPWORDS)
         stopwords.update(["FIRST_NAME", "LAST_NAME", "MIDDLE_NAME", "mr", "ms", "mrs"])
         cloud = WordCloud(stopwords=stopwords).generate(' '.join(self.df[self.column]))
@@ -70,14 +113,31 @@ class WordCloudUtils:
         plt.clf()
 
 class ColumnDistributionUtils:
+    """Utils for column distribution graphs."""
 
-    def __init__(self, df: pd.DataFrame, column: str, save_path: Union[str, Path], name: str):
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        column: str,
+        save_path: Union[str, Path],
+        name: str
+    ):
+        """Initializes an instance of ColumnDistributionUtils.
+
+        Args:
+            male_df: The dataframe with male data.
+            female_df: The dataframe with female data.
+            column: The column to focus on for the plot.
+            save_path: The location to save the plot.
+            name: The name of the plot for saving.
+        """
         self.df = df
         self.column = column
         self.save_path = Path(save_path)
         self.name = name
     
     def execute(self):
+        """Executes the plot creation."""
         data = self.df[self.column]
         _, _, autotexts = plt.pie(data.value_counts(), labels=data.unique().tolist(), autopct='%1.1f%%')
         for autotext in autotexts:
@@ -90,18 +150,26 @@ class ColumnDistributionUtils:
 dataset_path = "sentence_sets_trimmed.csv"
 save_path = "results"
 
+# Load dataset
 Path(save_path).mkdir(exist_ok=True)
 df = pd.read_csv(dataset_path, encoding='unicode_escape')
+
+# Preprocess
 df.replace(to_replace=r'[^\w\s]', value='', regex=True, inplace=True)
 df["full_text"] = df["full_text"].apply(remove_stopwords)
+
+# Segment by gender
 female_df = df[df["applicant_gender"] == "female"]
 male_df = df[df["applicant_gender"] == "male"]
 
+# Generate word clouds
 WordCloudUtils(df, save_path, "full_text", "wordcloud").execute()
 WordCloudUtils(female_df, save_path, "full_text", "wordcloud_female").execute()
 WordCloudUtils(male_df, save_path, "full_text", "wordcloud_male").execute()
 
+# Generate distribution pie charts
 ColumnDistributionUtils(df, "applicant_gender", save_path, "gender_dist").execute()
 ColumnDistributionUtils(df, "letter_type", save_path, "letter_typ_dist").execute()
 
+# Generate frequency bar chart
 FrequencyUtils(male_df, female_df, "full_text", save_path, "eda_chart").execute()
