@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class PerPixelLoss(nn.Module):
     def __init__(self, type: str, size_average=None, reduce=None, reduction='mean'):
-        super.__init__(PerPixelLoss, self)
+        super(PerPixelLoss, self).__init__()
 
         if type not in ['mse', 'l1']:
             print(f'Invalid input for type parameter, automatically defaulted to MSE\n')
