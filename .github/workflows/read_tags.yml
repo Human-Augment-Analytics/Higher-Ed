@@ -22,4 +22,4 @@ jobs:
       run: pip install requests
 
     - name: Run script
-      run: python read_tags.py
+      run: python Personal Folders/KaileyCozart/Week 2 Code Submission (05.24.24)/Automated Tag Reading/read_tags.py
