@@ -6,7 +6,7 @@ import os
 # Replace with your repo details and file path
 owner = 'Human-Augment-Analytics'
 repo = 'HAAG-Scripts-Repo'
-path = r'Personal Folders'
+path = ''
 
 # url_specific = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
 # url = f'https://api.github.com/repos/{owner}/{repo}/contents'
@@ -34,9 +34,8 @@ def get(url):
 
 def check_directory(path):
     url = f'https://api.github.com/repos/{owner}/{repo}/contents'
-    print("Started!")
+    print(f"Started {path}")
     response = get(url)
-    print("After get!")
     files = response.json()
 
     if isinstance(files, list):
