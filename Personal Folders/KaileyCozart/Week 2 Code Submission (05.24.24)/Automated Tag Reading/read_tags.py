@@ -43,12 +43,17 @@ def check_directory(path):
             if file['type'] == 'file':
                 file_url = file['url']
                 file_response = get(file_url)
-                content = base64.b64decode(file_response.json()['content']).decode('utf-8')
+                file_content = file_response.json()
 
-                if marker in content:
-                    logging.info(f"The file {file['path']} is tested and finalized.")
+                if file_content['encoding'] == 'base64':
+                    content = base64.b64decode(file_content['content']).decode('utf-8')
+
+                    if marker in content:
+                        logging.info(f"The file {file['path']} is tested and finalized.")
+                    else:
+                        logging.info(f"The file {file['path']} is not tested and finalized.")
                 else:
-                    logging.info(f"The file {file['path']} is not tested and finalized.")
+                    logging.info(f"Skipping non-text file {file['path']}")
             elif file['type'] == 'dir':
                 # Construct the full path for the subdirectory
                 subdirectory_path = os.path.join(path, file['name'])
