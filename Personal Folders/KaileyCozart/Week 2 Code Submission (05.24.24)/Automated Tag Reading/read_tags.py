@@ -2,6 +2,7 @@ import requests
 import base64
 import time
 import os
+import logging
 
 # Replace with your repo details and file path
 owner = 'Human-Augment-Analytics'
@@ -33,8 +34,7 @@ def get(url):
             return response
 
 def check_directory(path):
-    url = f'https://api.github.com/repos/{owner}/{repo}/contents'
-    print(f"Started {path}")
+    url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
     response = get(url)
     files = response.json()
 
@@ -46,12 +46,14 @@ def check_directory(path):
                 content = base64.b64decode(file_response.json()['content']).decode('utf-8')
 
                 if marker in content:
-                    print(f"The file {file['path']} is tested and finalized.")
+                    logging.info(f"The file {file['path']} is tested and finalized.")
                 else:
-                    print(f"The file {file['path']} is not tested and finalized.")
+                    logging.info(f"The file {file['path']} is not tested and finalized.")
             elif file['type'] == 'dir':
-                check_directory(file['path'])
+                # Construct the full path for the subdirectory
+                subdirectory_path = os.path.join(path, file['name'])
+                check_directory(subdirectory_path)
     else:
-        print(f"Error checking directory {path}: {files['message']}")
+        logging.error(f"Error checking directory {path}: {files['message']}")
 
 check_directory(path)
