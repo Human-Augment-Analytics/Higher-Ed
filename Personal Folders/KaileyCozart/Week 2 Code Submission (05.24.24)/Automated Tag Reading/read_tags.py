@@ -34,7 +34,7 @@ def get(url):
             return response
 
 def check_directory(path):
-    url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
+    url = f'https://api.github.com/repos/{owner}/{repo}/contents'
     response = get(url)
     files = response.json()
 
@@ -44,7 +44,7 @@ def check_directory(path):
                 file_url = file['url']
                 file_response = get(file_url)
                 file_content = file_response.json()
-
+                print(f"file {file['name']}")
                 if file_content['encoding'] == 'base64':
                     try:
                         content = base64.b64decode(file_content['content']).decode('utf-8')
