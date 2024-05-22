@@ -1,6 +1,9 @@
 import requests
 import base64
 
+response = requests.get('your_api_endpoint')
+print(response.json())
+
 # Replace with your repo details and file path
 owner = 'Human-Augment-Analytics'
 repo = 'HAAG-Scripts-Repo'
