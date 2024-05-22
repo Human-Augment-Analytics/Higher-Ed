@@ -7,11 +7,12 @@ repo = 'HAAG-Scripts-Repo'
 path = r'Personal Folders/KaileyCozart/Week 2 Code Submission (05.24.24)/Automated Tag Reading'
 
 url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
+url = f'https://api.github.com/repos/{owner}/{repo}/contents'
 response = requests.get(url)
 files = response.json()
 
 # Replace with your marker
-marker = '# TESTED AND FINALIZED'
+marker = '# TESTED AND DOCUMENTED'
 
 for file in files:
     if file['type'] == 'file':
