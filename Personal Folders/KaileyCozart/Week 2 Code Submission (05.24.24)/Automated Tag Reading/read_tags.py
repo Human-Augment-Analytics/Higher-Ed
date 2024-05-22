@@ -46,12 +46,15 @@ def check_directory(path):
                 file_content = file_response.json()
 
                 if file_content['encoding'] == 'base64':
-                    content = base64.b64decode(file_content['content']).decode('utf-8')
+                    try:
+                        content = base64.b64decode(file_content['content']).decode('utf-8')
 
-                    if marker in content:
-                        logging.info(f"The file {file['path']} is tested and finalized.")
-                    else:
-                        logging.info(f"The file {file['path']} is not tested and finalized.")
+                        if marker in content:
+                            logging.info(f"The file {file['path']} is tested and finalized.")
+                        else:
+                            logging.info(f"The file {file['path']} is not tested and finalized.")
+                    except UnicodeDecodeError:
+                        logging.info(f"Skipping file {file['path']} as it could not be decoded as UTF-8 text.")
                 else:
                     logging.info(f"Skipping non-text file {file['path']}")
             elif file['type'] == 'dir':
