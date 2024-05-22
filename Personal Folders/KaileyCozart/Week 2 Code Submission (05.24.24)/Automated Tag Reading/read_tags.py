@@ -34,7 +34,9 @@ def get(url):
 
 def check_directory(path):
     url = f'https://api.github.com/repos/{owner}/{repo}/contents'
+    print("Started!")
     response = get(url)
+    print("After get!")
     files = response.json()
 
     if isinstance(files, list):
