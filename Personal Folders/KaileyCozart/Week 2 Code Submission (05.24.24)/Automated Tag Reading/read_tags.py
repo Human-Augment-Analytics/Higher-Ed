@@ -6,7 +6,7 @@ import os
 # Replace with your repo details and file path
 owner = 'Human-Augment-Analytics'
 repo = 'HAAG-Scripts-Repo'
-path = r'Personal Folders/KaileyCozart/Week 2 Code Submission (05.24.24)/Automated Tag Reading'
+path = r'Personal Folders'
 
 # url_specific = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
 # url = f'https://api.github.com/repos/{owner}/{repo}/contents'
