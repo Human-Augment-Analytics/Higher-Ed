@@ -51,6 +51,6 @@ def check_directory(path):
             elif file['type'] == 'dir':
                 check_directory(file['path'])
     else:
-        print(f"Error checking directory {path}: {files}")
+        print(f"Error checking directory {path}: {files['message']}")
 
 check_directory(path)
