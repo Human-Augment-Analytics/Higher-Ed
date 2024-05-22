@@ -20,17 +20,20 @@ def check_directory(path):
     response = requests.get(url)
     files = response.json()
 
-    for file in files:
-        if file['type'] == 'file':
-            file_url = file['url']
-            file_response = requests.get(file_url)
-            content = base64.b64decode(file_response.json()['content']).decode('utf-8')
+    if isinstance(files, list):
+        for file in files:
+            if file['type'] == 'file':
+                file_url = file['url']
+                file_response = requests.get(file_url)
+                content = base64.b64decode(file_response.json()['content']).decode('utf-8')
 
-            if marker in content:
-                print(f"The file {file['path']} is tested and finalized.")
-            else:
-                print(f"The file {file['path']} is not tested and finalized.")
-        elif file['type'] == 'dir':
-            check_directory(file['path'])
+                if marker in content:
+                    print(f"The file {file['path']} is tested and finalized.")
+                else:
+                    print(f"The file {file['path']} is not tested and finalized.")
+            elif file['type'] == 'dir':
+                check_directory(file['path'])
+    else:
+        print(f"Error checking directory {path}: {files}")
 
 check_directory(path)
