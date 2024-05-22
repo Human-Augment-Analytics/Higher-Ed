@@ -1,9 +1,6 @@
 import requests
 import base64
 
-response = requests.get('your_api_endpoint')
-print(response.json())
-
 # Replace with your repo details and file path
 owner = 'Human-Augment-Analytics'
 repo = 'HAAG-Scripts-Repo'
@@ -12,6 +9,7 @@ path = r'Personal Folders/KaileyCozart/Week 2 Code Submission (05.24.24)/Automat
 
 url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
 response = requests.get(url)
+print(response.json())
 content = base64.b64decode(response.json()['content']).decode('utf-8')
 
 # Replace with your marker
