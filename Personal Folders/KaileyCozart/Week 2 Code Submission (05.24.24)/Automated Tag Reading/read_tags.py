@@ -4,7 +4,8 @@ import base64
 # Replace with your repo details and file path
 owner = 'Human-Augment-Analytics'
 repo = 'HAAG-Scripts-Repo'
-path = 'Personal Folders/KaileyCozart/Week 2 Code Submission (05.24.24)/Automated Tag Reading'
+# path = 'Personal Folders/KaileyCozart/Week 2 Code Submission (05.24.24)/Automated Tag Reading'
+path = r'Personal Folders/KaileyCozart/Week 2 Code Submission (05.24.24)/Automated Tag Reading'
 
 url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
 response = requests.get(url)
