@@ -1,0 +1,28 @@
+name: Check Files
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: pip install requests
+
+    - name: Run script
+      run: |
+        python "Personal Folders/KaileyCozart/Week 2 Code Submission (05.24.24)/Automated Tag Reading/read_tags.py"
+      env: 
+        GH_PAT: ${{ secrets.GH_PAT }}
