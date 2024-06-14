@@ -1,0 +1,26 @@
+{
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "source": "groups/682fd8da-e872-40ea-91a6-2f9ed8185b3b",
+        "drive": "b!buku6BQ7-UKC5wT1UMtkOM3O30sfTjJDqfD3xu9LBBjeF7mBMAlkSpS5n9rF1rGg",
+        "file": "01V4VIOOTI6FU7OCIB4ZDILOO4GQ5FD43F",
+        "table": "{00000000-000C-0000-FFFF-FFFF00000000}"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness",
+        "connection": "shared_excelonlinebusiness",
+        "operationId": "GetItems"
+      }
+    },
+    "runAfter": {},
+    "metadata": {
+      "01V4VIOOTUQZEZVYNBVFC32AGITMTG5T3B": "/gpu.xlsx",
+      "tableId": "{00000000-000C-0000-FFFF-FFFF00000000}",
+      "01V4VIOOSPRVGT4ATPARAK73VPFWJ53K5O": "/writing test.xlsx",
+      "01V4VIOOXWYG6CFDPFSFELEYUYUZGJWV4O": "/writing test.xlsx",
+      "01V4VIOOUUSHWCKCXXPJC2CRKDVO5SRCWL": "/writing test.xlsx",
+      "01V4VIOOWN4RK4SR65LBFZANRNR5BQWGW7": "/writing test.xlsx",
+      "01V4VIOOTI6FU7OCIB4ZDILOO4GQ5FD43F": "/The Researcher Directory(1-39).xlsx"
+    }
+  }

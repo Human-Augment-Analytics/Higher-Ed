@@ -1,0 +1,20 @@
+{
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "folderPath": "/HAAG",
+        "name": "@item()?['Name']",
+        "body": "@outputs('Send_an_email_(V2)')?['body']"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness",
+        "connection": "shared_onedriveforbusiness",
+        "operationId": "CreateFile"
+      }
+    },
+    "runAfter": {
+      "Send_an_email_(V2)": [
+        "Succeeded"
+      ]
+    }
+  }
