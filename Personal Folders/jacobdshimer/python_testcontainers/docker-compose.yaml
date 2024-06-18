@@ -1,5 +1,7 @@
 services:
-  redis:
-    image: redis:7.2
+  postgres:
+    image: postgres
     ports:
-      - "6379:6379"
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: example
