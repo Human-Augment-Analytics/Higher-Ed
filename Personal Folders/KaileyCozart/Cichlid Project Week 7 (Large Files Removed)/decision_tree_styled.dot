@@ -1,0 +1,37 @@
+digraph Tree {
+node [shape=box, fontname="helvetica", style=rounded, color="#8bc34a"] ;
+edge [fontname="helvetica", color="#8bc34a"] ;
+0 [label="mean_acceleration <= 0.384\ngini = 0.46\nsamples = 587\nfemale: 376, male: 211" ] ;
+1 [label="distance_traveled <= 5393.645\ngini = 0.378\nsamples = 466\nfemale: 348, male: 118"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="mean_acceleration <= 0.316\ngini = 0.239\nsamples = 260\nfemale: 224, male: 36"] ;
+1 -> 2 ;
+3 [label="distance_traveled <= 4332.171\ngini = 0.167\nsamples = 196\nfemale: 178, male: 18"] ;
+2 -> 3 ;
+4 [label="outreach_ratio <= 0.254\ngini = 0.118\nsamples = 143\nfemale: 134, male: 9"] ;
+3 -> 4 ;
+5 [label="gini = 0.071\nsamples = 81\nfemale: 78, male: 3", color="#4caf50"] ;
+4 -> 5 [color="#4caf50"];
+6 [label="gini = 0.175\nsamples = 62\nfemale: 56, male: 6", color="#4caf50"] ;
+4 -> 6 [color="#4caf50"];
+7 [label="gini = 0.282\nsamples = 53\nfemale: 44, male: 9", color="#4caf50"] ;
+3 -> 7 [color="#4caf50"];
+8 [label="gini = 0.404\nsamples = 64\nfemale: 46, male: 18", color="#4caf50"] ;
+2 -> 8 [color="#4caf50"];
+9 [label="speed <= 3.241\ngini = 0.479\nsamples = 206\nfemale: 124, male: 82"] ;
+1 -> 9 ;
+10 [label="speed <= 2.489\ngini = 0.405\nsamples = 149\nfemale: 107, male: 42"] ;
+9 -> 10 ;
+11 [label="gini = 0.344\nsamples = 86\nfemale: 67, male: 19", color="#4caf50"] ;
+10 -> 11 [color="#4caf50"];
+12 [label="gini = 0.464\nsamples = 63\nfemale: 40, male: 23", color="#4caf50"] ;
+10 -> 12 [color="#4caf50"];
+13 [label="gini = 0.419\nsamples = 57\nfemale: 17, male: 40", color="#4caf50"] ;
+9 -> 13 [color="#4caf50"];
+14 [label="distance_traveled <= 6081.939\ngini = 0.356\nsamples = 121\nfemale: 28, male: 93"] ;
+0 -> 14 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+15 [label="gini = 0.457\nsamples = 68\nfemale: 24, male: 44", color="#4caf50"] ;
+14 -> 15 [color="#4caf50"];
+16 [label="gini = 0.14\nsamples = 53\nfemale: 4, male: 49", color="#4caf50"] ;
+14 -> 16 [color="#4caf50"];
+}
