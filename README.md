@@ -51,20 +51,38 @@ The following are the proposed solutions:
 
 ### Codebase Manager Responsibilities
 
-As discussed in \textbf{(1)}, the codebase manager needs to create or add public repositories that will house all data for each project if it does not already exist. Additionally, the codebase manager or members of each team need to add relevant topics to their repositories. These topics might include things like computer-vision, biology, or machine-learning. The codebase manager needs to make sure that projects that were set to private during development (such as competition projects) are made public at the appropriate time. Larger projects with multiple repositories must also be managed by the codebase manager as needed.
+As discussed in (1), the codebase manager needs to create or add public repositories that will house all data for each project if it does not already exist. Additionally, the codebase manager or members of each team need to add relevant topics to their repositories. These topics might include things like computer-vision, biology, or machine-learning. The codebase manager needs to make sure that projects that were set to private during development (such as competition projects) are made public at the appropriate time. Larger projects with multiple repositories must also be managed by the codebase manager as needed.
 
-For \textbf{(2)}, no regular actions are required by the codebase manager. When a publication needs to cite researchers for their contributions, simply go to the “Insights" tab of a repository, as shown in Figure \ref{fig:gh-insights}.
+For (2), no regular actions are required by the codebase manager. When a publication needs to cite researchers for their contributions, simply go to the “Insights" tab of a repository, as shown in Figure \ref{fig:gh-insights}.
 
-As discussed in \textbf{(3)}, the codebase manager will need to inform researchers that their code must be tracked for future reference. At the end of the semester each team's GitHub project should be checked to ensure that the team has tracked their code. Additionally, insure that all code for each team has been uploaded to the appropriate repository. Once again, the goal is to not lose any needed code. 
+As discussed in (3), the codebase manager will need to inform researchers that their code must be tracked for future reference. At the end of the semester each team's GitHub project should be checked to ensure that the team has tracked their code. Additionally, insure that all code for each team has been uploaded to the appropriate repository. Once again, the goal is to not lose any needed code. 
 
-There is some important existing documentation for this step. First, there is both a YouTube video and pdf for explaining how teams can track their code using a “code tracking" issues tag and GitHub projects. The links are the following: YouTube (\url{https://youtu.be/Bl0AcWL1m1k}), pdf (\url{https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Code%20Management/GitHub%20Projects%20Documentation_%20Creating%20a%20Project%20Item.pdf}). Secondly, there is documentation for creating a project from the HAAG GitHub project template: \url{https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Code%20Management/GitHub%20Projects%20Documentation_%20Creating%20a%20Project%20from%20HAAG%20Template.pdf}. This will need to be done whenever a new repository is created.
+There is some important existing documentation for this step. First, there is both a YouTube video and pdf for explaining how teams can track their code using a “code tracking" issues tag and GitHub projects. The links are the following: YouTube (https://youtu.be/Bl0AcWL1m1k), pdf (https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Code%20Management/GitHub%20Projects%20Documentation_%20Creating%20a%20Project%20Item.pdf). Secondly, there is documentation for creating a project from the HAAG GitHub project template: https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Code%20Management/GitHub%20Projects%20Documentation_%20Creating%20a%20Project%20from%20HAAG%20Template.pdf. This will need to be done whenever a new repository is created.
 
-For \textbf{(4)}, the codebase manager simply needs to ensure that students follow the instructor's procedure for making weekly code contributions clear. This is to insure that the instructor knows that the students are contributing consistently every week.
+For (4), the codebase manager simply needs to ensure that students follow the instructor's procedure for making weekly code contributions clear. This is to insure that the instructor knows that the students are contributing consistently every week.
 
 # Resource Management
+
+### Resource Manager Responsibilities
 
 # Program Development
 
 1) Mentorship Program
 
-2) Seminar Program
+The mentorship program was designed to give OMSCS students interested in research at Georgia Tech opportunities to learn more about the available research programs and to get their questions answered. The mentorship program has the following objectives: 
+(1) To bolster the knowledge of academic research and computer science in students who are interested.
+(2) To allow students to make connections with their peers in OMSCS and to network.
+(3) To allow mentors and mentees to learn from eachothers' experiences.
+The mentorship program is covered at this location on the HAAG website: https://sites.gatech.edu/human-augmented-analytics-group/category/buddy-program/. The program starts with a training session for both mentors and mentees, and then mentors are asked to connect with mentees on their own. For some example materials for the mentorship program, see Kailey's mentorship slides here: https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Program%20Development/Mentorship%20Program%20Intro%20Meeting%20Example%20Slides%20-%20Kailey%20Cozart.pdf. These slides are just an example. If someone was to use these, they would need to be updated with relevant information, such as in the "my research projects" section.
+
+3) Seminar Program
+
+The seminar program was designed to allow students, professors, and others to share specific information about their area of expertise. This program allows both presenters and listeners to grow and learn. The seminar program has the following objectives: 
+(1) To help students learn more about their peers in the Human Augmented Analytics Group.
+(2) To encourage learning from others about scholarly topics.
+(3) To facilitate discussions about scholarly topics.
+During its first semester, the seminar program hosted 5 seminars. For reference, previous seminars are available for viewing on the HAAG website: https://sites.gatech.edu/human-augmented-analytics-group/category/seminars/.
+
+### Program Development Manager Responsibilities
+
+The program manager oversees the buddy program and the seminar program. For the mentorship program, the program development manager will be responsible for recruiting mentees, setting up the training session, potentially providing materials for mentors to use, and following up with mentors to assure that they have adequately engaged with their mentees. For the seminar program, the program development manager will be responsible for recruiting presenters for the program, hosting the seminars, and archiving them on the website for future viewing.
