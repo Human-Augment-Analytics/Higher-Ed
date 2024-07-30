@@ -75,7 +75,7 @@ The mentorship program was designed to give OMSCS students interested in researc
 (3) To allow mentors and mentees to learn from eachothers' experiences.
 The mentorship program is covered at this location on the HAAG website: https://sites.gatech.edu/human-augmented-analytics-group/category/buddy-program/. The program starts with a training session for both mentors and mentees, and then mentors are asked to connect with mentees on their own. For some example materials for the mentorship program, see Kailey's mentorship slides here: https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Program%20Development/Mentorship%20Program%20Intro%20Meeting%20Example%20Slides%20-%20Kailey%20Cozart.pdf. These slides are just an example. If someone was to use these, they would need to be updated with relevant information, such as in the "my research projects" section.
 
-3) Seminar Program
+2) Seminar Program
 
 The seminar program was designed to allow students, professors, and others to share specific information about their area of expertise. This program allows both presenters and listeners to grow and learn. The seminar program has the following objectives: 
 (1) To help students learn more about their peers in the Human Augmented Analytics Group.
