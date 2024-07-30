@@ -23,7 +23,7 @@ The following are the proposed solutions:
 
     It was determined that a public repository should exist inside of Human-Augmented-Analytics for each project. This was discussed with the student researchers and talked through here, but merge conflicts, repository size limits, and usability concerns for researchers were the primary reasons that this was decided. For each project repository, topics can be added, and then those topics can be searched for on the organization home page.
 
-    ![](https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Project%20Code/imgs/code_base_1.PNG)
+    ![](https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/imgs/code_base_1.PNG)
 
 2) Code contributions need to be tracked for publication attributions. 
 
