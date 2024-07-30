@@ -53,7 +53,7 @@ The following are the proposed solutions:
 
 As discussed in (1), the codebase manager needs to create or add public repositories that will house all data for each project if it does not already exist. Additionally, the codebase manager or members of each team need to add relevant topics to their repositories. These topics might include things like computer-vision, biology, or machine-learning. The codebase manager needs to make sure that projects that were set to private during development (such as competition projects) are made public at the appropriate time. Larger projects with multiple repositories must also be managed by the codebase manager as needed.
 
-For (2), no regular actions are required by the codebase manager. When a publication needs to cite researchers for their contributions, simply go to the “Insights" tab of a repository, as shown in Figure \ref{fig:gh-insights}.
+For (2), no regular actions are required by the codebase manager. When a publication needs to cite researchers for their contributions, simply go to the “Insights" tab of a repository.
 
 As discussed in (3), the codebase manager will need to inform researchers that their code must be tracked for future reference. At the end of the semester each team's GitHub project should be checked to ensure that the team has tracked their code. Additionally, insure that all code for each team has been uploaded to the appropriate repository. Once again, the goal is to not lose any needed code. 
 
