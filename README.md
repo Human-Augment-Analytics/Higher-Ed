@@ -113,7 +113,7 @@ The resource officer is responsible for responding to any other technical reques
 in the loop. For knowledge gaps, the resource officer should familiarize to their best ability the various pipelines in the group,
 especially the computer vision project. They should be able to set up the environment for each component of the pipeline and
 aim to be able to run the entire pipeline on their own over the semester. They will assist with installation issues from the
-group members. Important documentation is listed here: [Higher Education Documentation](https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Higher_Ed_Final_Document.pdf).
+group members. Important links for resource documentation are here: [Higher Education Documentation](https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Higher_Ed_Final_Document.pdf).
 
 # Program Development
 
