@@ -6,7 +6,7 @@ The goal of this project is to create and maintain a structure for large researc
 2) Resource Management
 3) Program Development
 
-If you're a new member on this team, please read the following document: [Higher Education Documentation](https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Higher_Ed_Final_Document.pdf).
+If you're a new member on this team, please read the following document: [Higher Education Documentation](https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Higher_Ed_Final_Document.pdf) .
 
 # Code Management
 
