@@ -6,6 +6,8 @@ The goal of this project is to create and maintain a structure for large researc
 2) Resource Management
 3) Program Development
 
+If you're a new member on this team, please read the following document: ![](https://github.com/Human-Augment-Analytics/Higher-Ed/blob/main/Higher%20Ed%20Files%20and%20Code/Higher_Ed_Final_Document.pdf)
+
 # Code Management
 
 When it comes to designing a system for organizing the code base of a large online research program, there are a few things to consider. First of all, the priorities of the organization must be considered. For Georgia Institute of Technology’s Human-Augmented Analytics Group, priorities include the following:
