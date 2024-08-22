@@ -1,0 +1,37 @@
+digraph Tree {
+node [shape=box, fontname="helvetica", style="filled,rounded", fillcolor="#dae0e0", color="grey"] ;
+edge [fontname="helvetica", color="black"] ;
+0 [label="mean acceleration\n<= 0.384\nfemale: 376, male: 211" ] ;
+1 [label="distance traveled\n<= 5393.645\nfemale: 348, male: 118"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="mean acceleration\n<= 0.316\nfemale: 224, male: 36"] ;
+1 -> 2 ;
+3 [label="distance traveled\n<= 4332.171\nfemale: 178, male: 18"] ;
+2 -> 3 ;
+4 [label="outreach ratio\n<= 0.254\nfemale: 134, male: 9"] ;
+3 -> 4 ;
+5 [label="female: 78, male: 3", color="grey"] ;
+4 -> 5 [color="black"];
+6 [label="female: 56, male: 6", color="grey"] ;
+4 -> 6 [color="black"];
+7 [label="female: 44, male: 9", color="grey"] ;
+3 -> 7 [color="black"];
+8 [label="female: 46, male: 18", color="grey"] ;
+2 -> 8 [color="black"];
+9 [label="speed\n<= 3.241\nfemale: 124, male: 82"] ;
+1 -> 9 ;
+10 [label="speed\n<= 2.489\nfemale: 107, male: 42"] ;
+9 -> 10 ;
+11 [label="female: 67, male: 19", color="grey"] ;
+10 -> 11 [color="black"];
+12 [label="female: 40, male: 23", color="grey"] ;
+10 -> 12 [color="black"];
+13 [label="female: 17, male: 40", color="grey"] ;
+9 -> 13 [color="black"];
+14 [label="distance traveled\n<= 6081.939\nfemale: 28, male: 93"] ;
+0 -> 14 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+15 [label="female: 24, male: 44", color="grey"] ;
+14 -> 15 [color="black"];
+16 [label="female: 4, male: 49", color="grey"] ;
+14 -> 16 [color="black"];
+}
