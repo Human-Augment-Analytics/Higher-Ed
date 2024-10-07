@@ -81,6 +81,73 @@ This documentation is for researchers who are completely new to PACE and DLC. It
 ## Modify Training Settings as Needed
 (1) In dlc_model-student-2023-07-26/dlc-models-pytorch/iteration-0/dlc_modelJul26-trainset95shuffle1/train/pytorch_config.yaml, you can change the batch size to 16 or 32 so that its faster. You can also change the number of epochs, etc. to speed training. Note that this will change the performance of the model.
 
+## Fix Heatmap Function (Request to Fix Made to DLC Team)
+(1) In the terminal you used for ssh, activate DLC environment: conda activate DEEPLABCUT .
+(2) Using the terminal, find the following path, yours may be slightly different:
+'''
+# <DLC environment>/lib/python3.10/site-packages/deeplabcut/pose_estimation_pytorch/models/target_generators/heatmap_targets.py weights
+/home/hice1/gatech-username/.conda/envs/DEEPLABCUT/lib/python3.10/site-packages/deeplabcut/pose_estimation_pytorch/models/target_generators
+'''
+(3) Create a Jupyter Notebook with the following code:
+'''
+import os
+
+# Path to your DeepLabCut installation
+dlc_path = "/home/hice1/kcozart6/.conda/envs/DEEPLABCUT/lib/python3.10/site-packages/deeplabcut/pose_estimation_pytorch/models/target_generators"
+# dlc_path = "DEEPLABCUT/lib/python3.10/site-packages/deeplabcut/pose_estimation_pytorch/models/target_generators/"
+
+# Verify that the file exists
+file_path = os.path.join(dlc_path, "heatmap_targets.py")
+print(os.path.exists(file_path))  # Should return True if the file exists
+
+# Open the file and display its contents
+with open(file_path, 'r') as file:
+    lines = file.readlines()
+
+# Print the specific part of interest (for example, lines around line 162)
+start_line = 150  # You can adjust these numbers
+end_line = 170
+for i, line in enumerate(lines[start_line:end_line], start=start_line + 1):
+    print(f"{i}: {line}", end="")
+
+# Example: Add a print statement at line 162
+# lines[161] = lines[161] + '\nprint("Debugging weights:", weights)\n'
+
+# Write the changes back to the file
+# with open(file_path, 'w') as file:
+    # file.writelines(lines)
+
+# print("File updated.")
+'''
+(4) Update the contents of heatmap_targets.py. You can either change it in Jupyter Notebook by uncommenting the code above, or by using nano: nano heatmap_targets.py .
+(5) The new function should look like this:
+'''
+for b in range(batch_size):
+            for heatmap_idx, group_keypoints in enumerate(coords[b]):
+                # THUAN's modification (next 2 lines and two 'pass' statements below)
+                if not np.any(group_keypoints[:, 2] > 0):
+                    weights[b, heatmap_idx] = 0.0
+                # END of modification
+                for keypoint in group_keypoints:
+                    if keypoint[-1] == 0:
+                        # full gradient masking
+                        pass # weights[b, heatmap_idx] = 0.0
+                    elif keypoint[-1] == -1:
+                        # full gradient masking
+                        pass # weights[b, heatmap_idx] = 0.0
+
+                    elif keypoint[-1] > 0:
+                        # keypoint visible
+                        self.update(
+                            heatmap=heatmap[b, :, :, heatmap_idx],
+                            grid=grid,
+                            keypoint=keypoint[..., :2],
+                            locref_map=self.get_locref(locref_map, b, heatmap_idx),
+                            locref_mask=self.get_locref(locref_mask, b, heatmap_idx),
+                        )
+'''
+(6) Control save and then exit the file in nano. You can re-run the Jupyter Notebook code to check if the file updated. 
+
 ## Use SLURM to Train
 (1) Create a file named dlc_training.sbatch in the same directory where your training script (test_training_script.py) is located.
 In Jupyter Notebook, open new terminal.
@@ -129,8 +196,10 @@ cat DLC_Training_Test1_Report-<job-id>.out  # To see the output logs
 
 ## Running a SLURM Job
 (1) In the terminal you ssh-ed into, type: conda activate DEEPLABCUT .
-(2) Initiate the conda environment next: conda init .
-(3) Use the following: nano dlc_training.sbatch . And copy this:
+(2) Initiate the conda environment next: conda init . 
+(3) Restart the terminal session. After running conda init, restart your terminal or shell to ensure the changes take effect. Alternatively, you can run source ~/.bashrc (for bash) or the equivalent command for your shell (e.g., source ~/.zshrc for zsh).
+(4) Turn on your environment again: conda activate DEEPLABCUT .
+(5) Use the following: nano dlc_training.sbatch . And copy this:
 '''
 #!/bin/bash
 #SBATCH -J DLC_model_training
@@ -151,7 +220,7 @@ cd $SLURM_SUBMIT_DIR                 # Change to working directory
 conda activate DEEPLABCUT
 srun python /home/hice1/kcozart6/scratch/test_training_script.py   # Run your training script
 '''
-(4) Inside the scratch folder, use the following: nano test_training_script.py . And copy this:
+(6) Inside the scratch folder, use the following: nano test_training_script.py . And copy this:
 '''
 import deeplabcut
 
@@ -159,7 +228,7 @@ config_path = "/home/hice1/kcozart6/scratch/dlc_model-student-2023-07-26/config.
 deeplabcut.create_multianimaltraining_dataset(config_path)
 deeplabcut.train_network(config_path, shuffle=1, trainingsetindex=0,)
 '''
-(5) In the ssh terminal, use the following: sbatch dlc_training.sbatch . Error logs can be read in the top-level folder of your username.
+(7) In the ssh terminal, use the following: sbatch dlc_training.sbatch . Error logs can be read in the top-level folder of your username.
 
 ## Training for an extended period
 (1) Once you're convinced that the model can be trained properly, there are options for running the training to completion: using interactive VS Code or terminal session or a batch job.
