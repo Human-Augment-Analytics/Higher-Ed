@@ -229,6 +229,15 @@ deeplabcut.create_multianimaltraining_dataset(config_path)
 deeplabcut.train_network(config_path, shuffle=1, trainingsetindex=0,)
 '''
 (7) In the ssh terminal, use the following: sbatch dlc_training.sbatch . Error logs can be read in the top-level folder of your username.
+(8) To choose a certain GPU to avoid out of memory issues, go to bash:
+'''
+scontrol show nodes
+'''
+Then add the desired GPU to your sbatch file using the following line:
+'''
+#SBATCH --gres=gpu:a10:1              # Request 1 NVIDIA A10 GPU
+'''
+
 
 ## Training for an extended period
 (1) Once you're convinced that the model can be trained properly, there are options for running the training to completion: using interactive VS Code or terminal session or a batch job.
