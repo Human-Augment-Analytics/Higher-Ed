@@ -81,13 +81,15 @@ This documentation is for researchers who are completely new to PACE and DLC. It
 ## Modify Training Settings as Needed
 (1) In dlc_model-student-2023-07-26/dlc-models-pytorch/iteration-0/dlc_modelJul26-trainset95shuffle1/train/pytorch_config.yaml, you can change the batch size to 16 or 32 so that its faster. You can also change the number of epochs, etc. to speed training. Note that this will change the performance of the model.
 
-## Fix Heatmap Function (Request to Fix Made to DLC Team)
+## Fix Heatmap Function (Request to Fix Made to DLC Team by Thuan)
+See Thuan's details here: https://github.com/DeepLabCut/DeepLabCut/issues/2751
 (1) In the terminal you used for ssh, activate DLC environment: conda activate DEEPLABCUT .
 (2) Using the terminal, find the following path, yours may be slightly different:
 '''
 # <DLC environment>/lib/python3.10/site-packages/deeplabcut/pose_estimation_pytorch/models/target_generators/heatmap_targets.py weights
 /home/hice1/gatech-username/.conda/envs/DEEPLABCUT/lib/python3.10/site-packages/deeplabcut/pose_estimation_pytorch/models/target_generators
 '''
+You may have to use the following to see the hidden .conda file: ls -a .
 (3) Create a Jupyter Notebook with the following code:
 '''
 import os
@@ -148,6 +150,34 @@ for b in range(batch_size):
 '''
 (6) Control save and then exit the file in nano. You can re-run the Jupyter Notebook code to check if the file updated. 
 
+## Fix Runner Dict (Request to Fix Made to DLC Team by Thuan)
+See Thuan's details here: https://github.com/DeepLabCut/DeepLabCut/issues/2749
+(1) In the terminal you used for ssh, activate DLC environment: conda activate DEEPLABCUT .
+(2) Using the terminal, find the following path, yours may be slightly different:
+'''
+# <DLC environment>/lib/python3.10/site-packages/deeplabcut/pose_estimation_pytorch/runners/base.py
+/home/hice1/gatech-username/.conda/envs/DEEPLABCUT/lib/python3.10/site-packages/deeplabcut/pose_estimation_pytorch/runners/base.py
+'''
+You may have to use the following to see the hidden .conda file: ls -a .
+(3) Run: nano base.py .
+The following is the code that you will be replacing:
+'''
+snapshot = torch.load(snapshot_path, map_location=device)
+model.load_state_dict(snapshot['model'])
+if optimizer is not None and 'optimizer' in snapshot:
+  optimizer.load_state_dict(snapshot["optimizer"])
+
+return snapshot.get("metadata", {}).get("epoch", 0)
+'''
+Replace the code above with Thuan's fix:
+'''
+snapshot = torch.load(snapshot_path, map_location=device)
+# model.load_state_dict(snapshot['model'])
+new_state_dict = {k.replace('module.', ''): v for k, v in snapshot['model'].items()}
+model.load_state_dict(new_state_dict)
+'''
+(4) Save and exit the file.
+
 ## Use SLURM to Train
 (1) Create a file named dlc_training.sbatch in the same directory where your training script (test_training_script.py) is located.
 In Jupyter Notebook, open new terminal.
@@ -193,6 +223,7 @@ scancel JOB_ID
 squeue -u your-username         # To check if the job is still running
 cat DLC_Training_Test1_Report-<job-id>.out  # To see the output logs
 '''
+(6) IMPORTANT: Always clear out the dlc-models-pytorch (except for the first one) and the training-datasets (remove all) before every run, otherwise some of your edits to pytorch\_config.yaml will be overwritten. Important stuff like batch size and evaluation intervals.
 
 ## Running a SLURM Job
 (1) In the terminal you ssh-ed into, type: conda activate DEEPLABCUT .
@@ -223,10 +254,101 @@ srun python /home/hice1/kcozart6/scratch/test_training_script.py   # Run your tr
 (6) Inside the scratch folder, use the following: nano test_training_script.py . And copy this:
 '''
 import deeplabcut
+import os
+import yaml
 
+# Set the path to the configuration file
 config_path = "/home/hice1/kcozart6/scratch/dlc_model-student-2023-07-26/config.yaml"
+
+# Define a custom output directory to store evaluation results
+output_dir = "/home/hice1/kcozart6/scratch/dlc_model-student-2023-07-26/results"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# Function to modify the pose_cfg.yaml file before training
+def modify_pose_cfg(config_path, changes):
+    # Locate the pose_cfg.yaml file in your DLC model directory
+    # Replace 'iteration-XXXXX' and 'model_name' with actual names
+    pose_cfg_path = os.path.join(os.path.dirname(config_path), 'dlc-models-pytorch', 'iteration-0', 'dlc_modelJul26-trainset95shuffle1', 'train', 'pose_cfg.yaml')
+    
+    # Load the YAML configuration
+    with open(pose_cfg_path, 'r') as file:
+        cfg = yaml.safe_load(file)
+    
+    # Apply the changes provided in the `changes` dictionary
+    for key, value in changes.items():
+        cfg[key] = value
+    
+    # Write the updated configuration back to the file
+    with open(pose_cfg_path, 'w') as file:
+        yaml.safe_dump(cfg, file)
+
+# Step 1: Create the training dataset
 deeplabcut.create_multianimaltraining_dataset(config_path)
-deeplabcut.train_network(config_path, shuffle=1, trainingsetindex=0,)
+
+# Modify pose_cfg.yaml to set eval_interval to 300 and batch_size to 16
+modify_pose_cfg(config_path, {'eval_interval': 300, 'batch_size': 16})
+
+# Step 2: Train the network with custom parameters
+deeplabcut.train_network(config_path, shuffle=1, trainingsetindex=0, maxiters=20000, saveiters=500)
+
+# Step 3: Create the test dataset for evaluation (trainIndices=False creates test data)
+deeplabcut.create_multianimaltraining_dataset(config_path, trainIndices=False)
+
+# Step 4: Evaluate the trained network and save evaluation metrics
+evaluation_file = os.path.join(output_dir, 'evaluation_results.csv')
+deeplabcut.evaluate_network(
+    config_path, 
+    plotting=True,  # This will create and save evaluation plots
+    shuffle=1, 
+    trainingsetindex=0, 
+    destfolder=output_dir  # Save the evaluation results and plots to the specified directory
+)
+
+# Step 5: Visualize the predicted keypoints on the original video and save the video
+video_path = "/path/to/video.mp4"  # Update this to the path of your video file
+labeled_video_dir = os.path.join(output_dir, 'labeled_videos')
+if not os.path.exists(labeled_video_dir):
+    os.makedirs(labeled_video_dir)
+
+# Generate labeled video with predictions
+deeplabcut.create_labeled_video(
+    config_path, 
+    [video_path], 
+    shuffle=1, 
+    trainingsetindex=0, 
+    save_as_csv=True,  # Save predictions as CSV along with video
+    destfolder=labeled_video_dir  # Save the labeled video to this directory
+)
+
+# Step 6: Extract predicted points to a CSV file and save them
+analyzed_data_dir = os.path.join(output_dir, 'analyzed_data')
+if not os.path.exists(analyzed_data_dir):
+    os.makedirs(analyzed_data_dir)
+
+deeplabcut.analyze_videos(
+    config_path, 
+    [video_path], 
+    shuffle=1, 
+    trainingsetindex=0, 
+    save_as_csv=True,  # Save the predicted keypoints as CSV
+    destfolder=analyzed_data_dir  # Save the analyzed keypoints to this directory
+)
+
+# Step 7: Generate and save labeled frames for further inspection
+labeled_frames_dir = os.path.join(output_dir, 'labeled_frames')
+if not os.path.exists(labeled_frames_dir):
+    os.makedirs(labeled_frames_dir)
+
+deeplabcut.create_labeled_video(
+    config_path, 
+    [video_path], 
+    shuffle=1, 
+    trainingsetindex=0, 
+    draw_skeleton=True, 
+    save_frames=True,  # Save each frame with keypoints as images
+    destfolder=labeled_frames_dir  # Save labeled frames to this directory
+)
 '''
 (7) In the ssh terminal, use the following: sbatch dlc_training.sbatch . Error logs can be read in the top-level folder of your username.
 (8) To choose a certain GPU to avoid out of memory issues, go to bash:
