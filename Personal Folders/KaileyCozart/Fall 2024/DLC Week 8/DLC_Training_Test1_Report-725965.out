@@ -1,0 +1,518 @@
+---------------------------------------
+Begin Slurm Prolog: Oct-09-2024 16:50:35
+Job ID:    725965
+User ID:   kcozart6
+Account:   coc
+Job name:  DLC_model_training
+Partition: ice-gpu
+---------------------------------------
+
+CondaError: Run 'conda init' before 'conda activate'
+
+Loading DLC 3.0.0rc5...
+DLC loaded in light mode; you cannot use any GUI (labeling, relabeling and standalone GUI)
+Utilizing the following graph: [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7], [2, 8], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 5], [4, 6], [4, 7], [4, 8], [5, 6], [5, 7], [5, 8], [6, 7], [6, 8], [7, 8]]
+Creating training data for: Shuffle: 9 TrainFraction:  0.95
+  0%|          | 0/1472 [00:00<?, ?it/s]  7%|▋         | 109/1472 [00:00<00:01, 1082.79it/s] 16%|█▌        | 229/1472 [00:00<00:01, 1151.06it/s] 24%|██▎       | 349/1472 [00:00<00:00, 1169.74it/s] 32%|███▏      | 471/1472 [00:00<00:00, 1186.19it/s] 40%|████      | 596/1472 [00:00<00:00, 1205.81it/s] 49%|████▉     | 723/1472 [00:00<00:00, 1226.37it/s] 58%|█████▊    | 851/1472 [00:00<00:00, 1241.47it/s] 67%|██████▋   | 979/1472 [00:00<00:00, 1251.09it/s] 75%|███████▌  | 1105/1472 [00:00<00:00, 1223.80it/s] 84%|████████▎ | 1232/1472 [00:01<00:00, 1236.59it/s] 92%|█████████▏| 1361/1472 [00:01<00:00, 1250.97it/s]100%|██████████| 1472/1472 [00:01<00:00, 1227.84it/s]
+Training with configuration:
+data:
+  colormode: RGB
+  inference:
+    normalize_images: True
+  train:
+    affine:
+      p: 0.5
+      rotation: 30
+      scaling: [1.0, 1.0]
+      translation: 0
+    collate:
+      type: ResizeFromDataSizeCollate
+      min_scale: 0.4
+      max_scale: 1.0
+      min_short_side: 128
+      max_short_side: 1152
+      multiple_of: 32
+      to_square: False
+    covering: False
+    gaussian_noise: 12.75
+    hist_eq: False
+    motion_blur: False
+    normalize_images: True
+device: auto
+metadata:
+  project_path: /storage/ice1/0/3/kcozart6/dlc_model-student-2023-07-26
+  pose_config_path: /storage/ice1/0/3/kcozart6/dlc_model-student-2023-07-26/dlc-models-pytorch/iteration-0/dlc_modelJul26-trainset95shuffle1/train/pose_cfg.yaml
+  bodyparts: ['nose', 'lefteye', 'righteye', 'spine1', 'spine2', 'spine3', 'backfin', 'leftfin', 'rightfin']
+  unique_bodyparts: []
+  individuals: ['fish1', 'fish2', 'fish3', 'fish4', 'fish5', 'fish6', 'fish7', 'fish8', 'fish9', 'fish10']
+  with_identity: False
+method: bu
+model:
+  backbone:
+    type: ResNet
+    model_name: resnet50_gn
+    output_stride: 16
+    freeze_bn_stats: True
+    freeze_bn_weights: False
+  backbone_output_channels: 2048
+  heads:
+    bodypart:
+      type: DLCRNetHead
+      predictor:
+        type: PartAffinityFieldPredictor
+        num_animals: 10
+        num_multibodyparts: 9
+        num_uniquebodyparts: 0
+        nms_radius: 5
+        sigma: 1.0
+        locref_stdev: 7.2801
+        min_affinity: 0.05
+        graph: [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7], [2, 8], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 5], [4, 6], [4, 7], [4, 8], [5, 6], [5, 7], [5, 8], [6, 7], [6, 8], [7, 8]]
+        edges_to_keep: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+        apply_sigmoid: True
+        clip_scores: False
+      target_generator:
+        type: SequentialGenerator
+        generators: [{'type': 'HeatmapPlateauGenerator', 'num_heatmaps': 9, 'pos_dist_thresh': 17, 'heatmap_mode': 'KEYPOINT', 'gradient_masking': False, 'generate_locref': True, 'locref_std': 7.2801}, {'type': 'PartAffinityFieldGenerator', 'graph': [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7], [2, 8], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 5], [4, 6], [4, 7], [4, 8], [5, 6], [5, 7], [5, 8], [6, 7], [6, 8], [7, 8]], 'width': 20}]
+      criterion:
+        heatmap:
+          type: WeightedBCECriterion
+          weight: 1.0
+        locref:
+          type: WeightedHuberCriterion
+          weight: 0.05
+        paf:
+          type: WeightedHuberCriterion
+          weight: 0.1
+      heatmap_config:
+        channels: [2048, 9]
+        kernel_size: [3]
+        strides: [2]
+      locref_config:
+        channels: [2048, 18]
+        kernel_size: [3]
+        strides: [2]
+      paf_config:
+        channels: [2048, 72]
+        kernel_size: [3]
+        strides: [2]
+      num_stages: 5
+net_type: resnet_50
+runner:
+  type: PoseTrainingRunner
+  gpus: None
+  key_metric: test.mAP
+  key_metric_asc: True
+  eval_interval: 300
+  optimizer:
+    type: AdamW
+    params:
+      lr: 0.0001
+  scheduler:
+    type: LRListScheduler
+    params:
+      lr_list: [[1e-05], [1e-06]]
+      milestones: [160, 190]
+  snapshots:
+    max_snapshots: 5
+    save_epochs: 25
+    save_optimizer_state: False
+train_settings:
+  batch_size: 16
+  dataloader_workers: 0
+  dataloader_pin_memory: False
+  display_iters: 500
+  epochs: 180
+  seed: 42
+Loading pretrained weights from Hugging Face hub (timm/resnet50_gn.a1h_in1k)
+[timm/resnet50_gn.a1h_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+Data Transforms:
+  Training:   Compose([
+  Affine(always_apply=False, p=0.5, interpolation=1, mask_interpolation=0, cval=0, mode=0, scale={'x': (1.0, 1.0), 'y': (1.0, 1.0)}, translate_percent=None, translate_px={'x': (0, 0), 'y': (0, 0)}, rotate=(-30, 30), fit_output=False, shear={'x': (0.0, 0.0), 'y': (0.0, 0.0)}, cval_mask=0, keep_ratio=True, rotate_method='largest_box'),
+  GaussNoise(always_apply=False, p=0.5, var_limit=(0, 162.5625), per_channel=True, mean=0),
+  Normalize(always_apply=False, p=1.0, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0),
+], p=1.0, bbox_params={'format': 'coco', 'label_fields': ['bbox_labels'], 'min_area': 0.0, 'min_visibility': 0.0, 'min_width': 0.0, 'min_height': 0.0, 'check_each_transform': True}, keypoint_params={'format': 'xy', 'label_fields': ['class_labels'], 'remove_invisible': False, 'angle_in_degrees': True, 'check_each_transform': True}, additional_targets={}, is_check_shapes=True)
+  Validation: Compose([
+  Normalize(always_apply=False, p=1.0, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0),
+], p=1.0, bbox_params={'format': 'coco', 'label_fields': ['bbox_labels'], 'min_area': 0.0, 'min_visibility': 0.0, 'min_width': 0.0, 'min_height': 0.0, 'check_each_transform': True}, keypoint_params={'format': 'xy', 'label_fields': ['class_labels'], 'remove_invisible': False, 'angle_in_degrees': True, 'check_each_transform': True}, additional_targets={}, is_check_shapes=True)
+Using custom collate function: {'type': 'ResizeFromDataSizeCollate', 'min_scale': 0.4, 'max_scale': 1.0, 'min_short_side': 128, 'max_short_side': 1152, 'multiple_of': 32, 'to_square': False}
+
+Note: According to your model configuration, you're training with batch size 1 and/or ``freeze_bn_stats=false``. This is not an optimal setting if you have powerful GPUs.
+This is good for small batch sizes (e.g., when training on a CPU), where you should keep ``freeze_bn_stats=true``.
+If you're using a GPU to train, you can obtain faster performance by setting a larger batch size (the biggest power of 2 where you don't geta CUDA out-of-memory error, such as 8, 16, 32 or 64 depending on the model, size of your images, and GPU memory) and ``freeze_bn_stats=false`` for the backbone of your model. 
+This also allows you to increase the learning rate (empirically you can scale the learning rate by sqrt(batch_size) times).
+
+Using 1472 images and 78 for testing
+
+Starting pose model training...
+--------------------------------------------------
+Epoch 1/180 (lr=0.0001), train loss 0.00988
+Epoch 2/180 (lr=0.0001), train loss 0.01213
+Epoch 3/180 (lr=0.0001), train loss 0.00985
+Epoch 4/180 (lr=0.0001), train loss 0.00887
+Epoch 5/180 (lr=0.0001), train loss 0.01176
+Epoch 6/180 (lr=0.0001), train loss 0.01016
+Epoch 7/180 (lr=0.0001), train loss 0.01129
+Epoch 8/180 (lr=0.0001), train loss 0.00840
+Epoch 9/180 (lr=0.0001), train loss 0.00662
+Epoch 10/180 (lr=0.0001), train loss 0.00476
+Epoch 11/180 (lr=0.0001), train loss 0.00626
+Epoch 12/180 (lr=0.0001), train loss 0.00361
+Epoch 13/180 (lr=0.0001), train loss 0.00620
+Epoch 14/180 (lr=0.0001), train loss 0.00437
+Epoch 15/180 (lr=0.0001), train loss 0.00355
+Epoch 16/180 (lr=0.0001), train loss 0.00348
+Epoch 17/180 (lr=0.0001), train loss 0.00368
+Epoch 18/180 (lr=0.0001), train loss 0.00389
+Epoch 19/180 (lr=0.0001), train loss 0.00326
+Epoch 20/180 (lr=0.0001), train loss 0.00288
+Epoch 21/180 (lr=0.0001), train loss 0.00282
+Epoch 22/180 (lr=0.0001), train loss 0.00275
+Epoch 23/180 (lr=0.0001), train loss 0.00294
+Epoch 24/180 (lr=0.0001), train loss 0.00321
+Epoch 25/180 (lr=0.0001), train loss 0.00283
+Epoch 26/180 (lr=0.0001), train loss 0.00278
+Epoch 27/180 (lr=0.0001), train loss 0.00256
+Epoch 28/180 (lr=0.0001), train loss 0.00285
+Epoch 29/180 (lr=0.0001), train loss 0.00273
+Epoch 30/180 (lr=0.0001), train loss 0.00269
+Epoch 31/180 (lr=0.0001), train loss 0.00351
+Epoch 32/180 (lr=0.0001), train loss 0.00475
+Epoch 33/180 (lr=0.0001), train loss 0.00357
+Epoch 34/180 (lr=0.0001), train loss 0.00376
+Epoch 35/180 (lr=0.0001), train loss 0.00293
+Epoch 36/180 (lr=0.0001), train loss 0.00254
+Epoch 37/180 (lr=0.0001), train loss 0.00275
+Epoch 38/180 (lr=0.0001), train loss 0.00250
+Epoch 39/180 (lr=0.0001), train loss 0.00231
+Epoch 40/180 (lr=0.0001), train loss 0.00212
+Epoch 41/180 (lr=0.0001), train loss 0.00259
+Epoch 42/180 (lr=0.0001), train loss 0.00244
+Epoch 43/180 (lr=0.0001), train loss 0.00222
+Epoch 44/180 (lr=0.0001), train loss 0.00222
+Epoch 45/180 (lr=0.0001), train loss 0.00210
+Epoch 46/180 (lr=0.0001), train loss 0.00212
+Epoch 47/180 (lr=0.0001), train loss 0.00211
+Epoch 48/180 (lr=0.0001), train loss 0.00207
+Epoch 49/180 (lr=0.0001), train loss 0.00204
+Epoch 50/180 (lr=0.0001), train loss 0.00206
+Epoch 51/180 (lr=0.0001), train loss 0.00199
+Epoch 52/180 (lr=0.0001), train loss 0.00202
+Epoch 53/180 (lr=0.0001), train loss 0.00187
+Epoch 54/180 (lr=0.0001), train loss 0.00217
+Epoch 55/180 (lr=0.0001), train loss 0.00219
+Epoch 56/180 (lr=0.0001), train loss 0.00204
+Epoch 57/180 (lr=0.0001), train loss 0.00189
+Epoch 58/180 (lr=0.0001), train loss 0.00190
+Epoch 59/180 (lr=0.0001), train loss 0.00193
+Epoch 60/180 (lr=0.0001), train loss 0.00188
+Epoch 61/180 (lr=0.0001), train loss 0.00195
+Epoch 62/180 (lr=0.0001), train loss 0.00180
+Epoch 63/180 (lr=0.0001), train loss 0.00176
+Epoch 64/180 (lr=0.0001), train loss 0.00173
+Epoch 65/180 (lr=0.0001), train loss 0.00175
+Epoch 66/180 (lr=0.0001), train loss 0.00184
+Epoch 67/180 (lr=0.0001), train loss 0.00177
+Epoch 68/180 (lr=0.0001), train loss 0.00169
+Epoch 69/180 (lr=0.0001), train loss 0.00175
+Epoch 70/180 (lr=0.0001), train loss 0.00181
+Epoch 71/180 (lr=0.0001), train loss 0.00223
+Epoch 72/180 (lr=0.0001), train loss 0.00190
+Epoch 73/180 (lr=0.0001), train loss 0.00182
+Epoch 74/180 (lr=0.0001), train loss 0.00172
+Epoch 75/180 (lr=0.0001), train loss 0.00170
+Epoch 76/180 (lr=0.0001), train loss 0.00167
+Epoch 77/180 (lr=0.0001), train loss 0.00167
+Epoch 78/180 (lr=0.0001), train loss 0.00172
+Epoch 79/180 (lr=0.0001), train loss 0.00160
+Epoch 80/180 (lr=0.0001), train loss 0.00167
+Epoch 81/180 (lr=0.0001), train loss 0.00166
+Epoch 82/180 (lr=0.0001), train loss 0.00161
+Epoch 83/180 (lr=0.0001), train loss 0.00172
+Epoch 84/180 (lr=0.0001), train loss 0.00173
+Epoch 85/180 (lr=0.0001), train loss 0.00165
+Epoch 86/180 (lr=0.0001), train loss 0.00159
+Epoch 87/180 (lr=0.0001), train loss 0.00157
+Epoch 88/180 (lr=0.0001), train loss 0.00150
+Epoch 89/180 (lr=0.0001), train loss 0.00147
+Epoch 90/180 (lr=0.0001), train loss 0.00155
+Epoch 91/180 (lr=0.0001), train loss 0.00155
+Epoch 92/180 (lr=0.0001), train loss 0.00150
+Epoch 93/180 (lr=0.0001), train loss 0.00153
+Epoch 94/180 (lr=0.0001), train loss 0.00173
+Epoch 95/180 (lr=0.0001), train loss 0.00157
+Epoch 96/180 (lr=0.0001), train loss 0.00151
+Epoch 97/180 (lr=0.0001), train loss 0.00153
+Epoch 98/180 (lr=0.0001), train loss 0.00147
+Epoch 99/180 (lr=0.0001), train loss 0.00153
+Epoch 100/180 (lr=0.0001), train loss 0.00143
+Epoch 101/180 (lr=0.0001), train loss 0.00141
+Epoch 102/180 (lr=0.0001), train loss 0.00135
+Epoch 103/180 (lr=0.0001), train loss 0.00146
+Epoch 104/180 (lr=0.0001), train loss 0.00131
+Epoch 105/180 (lr=0.0001), train loss 0.00146
+Epoch 106/180 (lr=0.0001), train loss 0.00138
+Epoch 107/180 (lr=0.0001), train loss 0.00140
+Epoch 108/180 (lr=0.0001), train loss 0.00136
+Epoch 109/180 (lr=0.0001), train loss 0.00145
+Epoch 110/180 (lr=0.0001), train loss 0.00138
+Epoch 111/180 (lr=0.0001), train loss 0.00136
+Epoch 112/180 (lr=0.0001), train loss 0.00129
+Epoch 113/180 (lr=0.0001), train loss 0.00137
+Epoch 114/180 (lr=0.0001), train loss 0.00163
+Epoch 115/180 (lr=0.0001), train loss 0.00265
+Epoch 116/180 (lr=0.0001), train loss 0.00261
+Epoch 117/180 (lr=0.0001), train loss 0.00203
+Epoch 118/180 (lr=0.0001), train loss 0.00143
+Epoch 119/180 (lr=0.0001), train loss 0.00128
+Epoch 120/180 (lr=0.0001), train loss 0.00130
+Epoch 121/180 (lr=0.0001), train loss 0.00129
+Epoch 122/180 (lr=0.0001), train loss 0.00130
+Epoch 123/180 (lr=0.0001), train loss 0.00132
+Epoch 124/180 (lr=0.0001), train loss 0.00135
+Epoch 125/180 (lr=0.0001), train loss 0.00144
+Epoch 126/180 (lr=0.0001), train loss 0.00138
+Epoch 127/180 (lr=0.0001), train loss 0.00128
+Epoch 128/180 (lr=0.0001), train loss 0.00125
+Epoch 129/180 (lr=0.0001), train loss 0.00123
+Epoch 130/180 (lr=0.0001), train loss 0.00125
+Epoch 131/180 (lr=0.0001), train loss 0.00121
+Epoch 132/180 (lr=0.0001), train loss 0.00121
+Epoch 133/180 (lr=0.0001), train loss 0.00130
+Epoch 134/180 (lr=0.0001), train loss 0.00122
+Epoch 135/180 (lr=0.0001), train loss 0.00127
+Epoch 136/180 (lr=0.0001), train loss 0.00117
+Epoch 137/180 (lr=0.0001), train loss 0.00130
+Epoch 138/180 (lr=0.0001), train loss 0.00118
+Epoch 139/180 (lr=0.0001), train loss 0.00116
+Epoch 140/180 (lr=0.0001), train loss 0.00115
+Epoch 141/180 (lr=0.0001), train loss 0.00122
+Epoch 142/180 (lr=0.0001), train loss 0.00114
+Epoch 143/180 (lr=0.0001), train loss 0.00119
+Epoch 144/180 (lr=0.0001), train loss 0.00119
+Epoch 145/180 (lr=0.0001), train loss 0.00117
+Epoch 146/180 (lr=0.0001), train loss 0.00125
+Epoch 147/180 (lr=0.0001), train loss 0.00117
+Epoch 148/180 (lr=0.0001), train loss 0.00110
+Epoch 149/180 (lr=0.0001), train loss 0.00110
+Epoch 150/180 (lr=0.0001), train loss 0.00114
+Epoch 151/180 (lr=0.0001), train loss 0.00112
+Epoch 152/180 (lr=0.0001), train loss 0.00109
+Epoch 153/180 (lr=0.0001), train loss 0.00108
+Epoch 154/180 (lr=0.0001), train loss 0.00120
+Epoch 155/180 (lr=0.0001), train loss 0.00187
+Epoch 156/180 (lr=0.0001), train loss 0.00156
+Epoch 157/180 (lr=0.0001), train loss 0.00124
+Epoch 158/180 (lr=0.0001), train loss 0.00109
+Epoch 159/180 (lr=0.0001), train loss 0.00114
+Epoch 160/180 (lr=1e-05), train loss 0.00111
+Epoch 161/180 (lr=1e-05), train loss 0.00105
+Epoch 162/180 (lr=1e-05), train loss 0.00097
+Epoch 163/180 (lr=1e-05), train loss 0.00099
+Epoch 164/180 (lr=1e-05), train loss 0.00101
+Epoch 165/180 (lr=1e-05), train loss 0.00096
+Epoch 166/180 (lr=1e-05), train loss 0.00101
+Epoch 167/180 (lr=1e-05), train loss 0.00098
+Epoch 168/180 (lr=1e-05), train loss 0.00099
+Epoch 169/180 (lr=1e-05), train loss 0.00099
+Epoch 170/180 (lr=1e-05), train loss 0.00094
+Epoch 171/180 (lr=1e-05), train loss 0.00097
+Epoch 172/180 (lr=1e-05), train loss 0.00096
+Epoch 173/180 (lr=1e-05), train loss 0.00095
+Epoch 174/180 (lr=1e-05), train loss 0.00096
+Epoch 175/180 (lr=1e-05), train loss 0.00097
+Epoch 176/180 (lr=1e-05), train loss 0.00094
+Epoch 177/180 (lr=1e-05), train loss 0.00096
+Epoch 178/180 (lr=1e-05), train loss 0.00096
+Epoch 179/180 (lr=1e-05), train loss 0.00095
+Epoch 180/180 (lr=1e-05), train loss 0.00099
+The training dataset is successfully created. Use the function 'train_network' to start training. Happy training!
+Updated Configuration:
+all_joints:
+- - 0
+- - 1
+- - 2
+- - 3
+- - 4
+- - 5
+- - 6
+- - 7
+- - 8
+all_joints_names:
+- nose
+- lefteye
+- righteye
+- spine1
+- spine2
+- spine3
+- backfin
+- leftfin
+- rightfin
+alpha_r: 0.02
+apply_prob: 0.5
+batch_size: 16
+contrast:
+  clahe: true
+  claheratio: 0.1
+  histeq: true
+  histeqratio: 0.1
+convolution:
+  edge: false
+  emboss:
+    alpha:
+    - 0.0
+    - 1.0
+    strength:
+    - 0.5
+    - 1.5
+  embossratio: 0.1
+  sharpen: false
+  sharpenratio: 0.3
+crop_sampling: hybrid
+crop_size:
+- 400
+- 400
+cropratio: 0.4
+dataset: training-datasets/iteration-0/UnaugmentedDataSet_dlc_modelJul26/dlc_model_student95shuffle1.pickle
+dataset_type: multi-animal-imgaug
+decay_steps: 30000
+display_iters: 500
+engine: pytorch
+epochs: 180
+eval_interval: 300
+global_scale: 0.8
+init_weights: /home/hice1/kcozart6/.conda/envs/DEEPLABCUT/lib/python3.10/site-packages/deeplabcut
+intermediate_supervision: false
+intermediate_supervision_layer: 12
+location_refinement: true
+locref_huber_loss: true
+locref_loss_weight: 0.05
+locref_stdev: 7.2801
+lr_init: 0.0005
+max_input_size: 1500
+max_shift: 0.4
+maxiters: 20000
+metadataset: training-datasets/iteration-0/UnaugmentedDataSet_dlc_modelJul26/Documentation_data-dlc_model_95shuffle1.pickle
+min_input_size: 64
+mirror: false
+multi_stage: false
+multi_step:
+- - 0.0001
+  - 7500
+- - 5.0e-05
+  - 12000
+- - 1.0e-05
+  - 200000
+net_type: resnet_50
+num_idchannel: 0
+num_joints: 9
+num_limbs: 36
+optimizer: adam
+pafwidth: 20
+pairwise_huber_loss: false
+pairwise_loss_weight: 0.1
+pairwise_predict: false
+partaffinityfield_graph:
+- - 0
+  - 1
+- - 0
+  - 2
+- - 0
+  - 3
+- - 0
+  - 4
+- - 0
+  - 5
+- - 0
+  - 6
+- - 0
+  - 7
+- - 0
+  - 8
+- - 1
+  - 2
+- - 1
+  - 3
+- - 1
+  - 4
+- - 1
+  - 5
+- - 1
+  - 6
+- - 1
+  - 7
+- - 1
+  - 8
+- - 2
+  - 3
+- - 2
+  - 4
+- - 2
+  - 5
+- - 2
+  - 6
+- - 2
+  - 7
+- - 2
+  - 8
+- - 3
+  - 4
+- - 3
+  - 5
+- - 3
+  - 6
+- - 3
+  - 7
+- - 3
+  - 8
+- - 4
+  - 5
+- - 4
+  - 6
+- - 4
+  - 7
+- - 4
+  - 8
+- - 5
+  - 6
+- - 5
+  - 7
+- - 5
+  - 8
+- - 6
+  - 7
+- - 6
+  - 8
+- - 7
+  - 8
+partaffinityfield_predict: true
+pos_dist_thresh: 17
+pre_resize: []
+project_path: /storage/ice1/0/3/kcozart6/dlc_model-student-2023-07-26
+rotation: 25
+rotratio: 0.4
+save_iters: 15000
+scale_jitter_lo: 0.5
+scale_jitter_up: 1.25
+weigh_only_present_joints: false
+
+Utilizing the following graph: [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7], [2, 8], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 5], [4, 6], [4, 7], [4, 8], [5, 6], [5, 7], [5, 8], [6, 7], [6, 8], [7, 8]]
+Traceback (most recent call last):
+  File "/home/hice1/kcozart6/scratch/test_training_script.py", line 59, in <module>
+    deeplabcut.create_multianimaltraining_dataset(config_path, trainIndices=False)
+  File "/home/hice1/kcozart6/.conda/envs/DEEPLABCUT/lib/python3.10/site-packages/deeplabcut/generate_training_dataset/multiple_individuals_trainingsetmanipulation.py", line 372, in create_multianimaltraining_dataset
+    if len(trainIndices) != len(testIndices) != len(Shuffles):
+TypeError: object of type 'bool' has no len()
+srun: error: atl1-1-03-012-18-0: task 0: Exited with exit code 1
+---------------------------------------
+Begin Slurm Epilog: Oct-10-2024 06:48:45
+Job ID:        725965
+Array Job ID:  _4294967294
+User ID:       kcozart6
+Account:       coc
+Job name:      DLC_model_training
+Resources:     cpu=4,gres/gpu:h100=1,mem=64G,node=1
+Rsrc Used:     cput=2-07:52:40,vmem=0,walltime=13:58:10,mem=6492K,energy_used=0
+Partition:     ice-gpu
+Nodes:         atl1-1-03-012-18-0
+---------------------------------------
