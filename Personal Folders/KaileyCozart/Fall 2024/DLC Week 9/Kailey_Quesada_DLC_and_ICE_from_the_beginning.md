@@ -253,6 +253,11 @@ cd $SLURM_SUBMIT_DIR                 # Change to working directory
 conda activate DEEPLABCUT
 srun python /home/hice1/kcozart6/scratch/test_training_script.py   # Run your training script
 ```
+Then request the batch job by changing to the same folder where `test_training_script.py` is located, and run:
+```
+  sbatch dlc_training.sbatch
+```
+Please refer to [PACE Documentation](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042503) for details on `.sbatch` syntax.
 (6) Inside the scratch folder, use the following: nano test_training_script.py . And copy this:
 ```
 import deeplabcut
@@ -371,43 +376,6 @@ Then add the desired GPU to your sbatch file using the following line:
 ```
 #SBATCH --gres=gpu:a10:1              # Request 1 NVIDIA A10 GPU
 ```
-
-
-## Training for an extended period
-(1) Once you're convinced that the model can be trained properly, there are options for running the training to completion: using interactive VS Code or terminal session or a batch job.
-(2) On an interactive session, you can use `tmux` to launch the training script above and have `tmux` keep track of the process such that you can temporarily close the interactive session or exit the VS Code browser window and later go back into the training process that `tmux` still manages. Create a new `tmux` session by running this command in the terminal:
-```
-  tmux new-session -t dlc-training
-```
-Then launch any script you want as in any terminal. `Ctrl + B`, then `D` to detach from `tmux` while the script is still running. Later, attach again to view the script by running in the terminal:
-```
-  tmux attach-session -t dlc-training
-```
-If using a batch job, here's an SBATCH request that you can use. Assuming `test_training_script.py` is the name of the Python script that contains `.train_network()` function call above. Create the file `dlc_training.sbatch` with this content:
-```
-  #!/bin/bash
-  #SBATCH -JDLC_model_training1
-  #SBATCH -N1 --ntasks-per-node=1
-  #SBATCH --gres=gpu:H100:1
-  #SBATCH --cpus-per-task=4
-  #SBATCH --mem=64GB
-  #SBATCH -t0-08:00:00     # Requesting 8 hours, which seems to be enough to run 90 epochs
-  #SBATCH -oDLC_Training_Test1_Report-%j.out                
-  #SBATCH --mail-type=BEGIN,END,FAIL
-
-  cd $SLURM_SUBMIT_DIR                     # Change to working directory
-
-  source /home/hice1/tnguyen868/anaconda3/bin/activate /path/to/DLC/environment/folder
-  export PATH="/path/to/DLC/environment/folder/bin:$PATH"
-
-  srun python test_training_script.py
-
-```
-Then request the batch job by changing to the same folder where `test_training_script.py` is located, and run:
-```
-  sbatch dlc_training.sbatch
-```
-Please refer to [PACE Documentation](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042503) for details on `.sbatch` syntax.
 
 ## Troubleshooting Notes
 If the script could not get to a first training step and threw error, inspect this YAML file that controls some training settings: `.../dlc_model-student-2023-07-26/dlc-models-pytorch/iteration-0/dlc_modelJul26-trainset95shuffle1/train/pytorch_config.yaml`. The folder structure looks like this. It seems that DLC re-created the `dlc-models-pytorch` folder, since its latest version supports a PyTorch engine.
@@ -564,9 +532,6 @@ The training code does not appear to automatically use all available GPUs. I rai
 
 Try to clear the conda cache. 
 ```
-Search Labs | AI Overview
-Learn more
-…
 To clear the cache in conda, you can use the conda clean command with various options:
 -a, --all: Removes everything, including the index cache, lock files, unused packages, tarballs, and logfiles
 -i, --index-cache: Removes the index cache
