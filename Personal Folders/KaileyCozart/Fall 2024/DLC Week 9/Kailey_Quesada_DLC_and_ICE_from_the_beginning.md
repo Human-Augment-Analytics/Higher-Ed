@@ -6,6 +6,8 @@ This documentation is for researchers who are completely new to PACE and DLC. It
 
 # Documentation
 
+## Setup for DLC
+
 ### Download Gatech VPN (Required for Off Campus Researchers)
 Download GlobalProtect VPN Client from vpn.gatech.edu website. More details can be found at https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042139 if needed. The kb article has OS-specific VPN configuration instructions.
 
@@ -45,7 +47,7 @@ Students from CS 6999 and CS 8903 must be added every semester by helpdesk@cc.ga
 (1) End your current Jupyter Notebook session, and start a new one with "Node Type" as "NVIDIA GPU (first avail)." 
 (2) Open your Bash file in the scratch folder and type the following command to use DLC: conda activate DEEPLABCUT .
 
-### Call `deeplabcut.create_multianimaltraining_dataset`
+## Call `deeplabcut.create_multianimaltraining_dataset`
 (1) In your Bash file, run the following and copy the result: pwd .
 (2) Go to the `config.yaml` from the downloaded data. 
 (3) Update the project_path to the path you copied from Bash. Set the engine to pytorch. Review the rest of the YAML settings, which have also been set up for fish pose estimation (body parts, skeleton, etc.). See the example below:
@@ -66,7 +68,7 @@ Students from CS 6999 and CS 8903 must be added every semester by helpdesk@cc.ga
   deeplabcut.create_multianimaltraining_dataset(config_path)
 ```
 
-### Call `deeplabcut.train_network`
+## Call `deeplabcut.train_network`
 (1) Run this code (be sure to modify `config_path`) to see if DLC gets to the first training step, then exit.
 ```
   import deeplabcut
@@ -78,10 +80,10 @@ Students from CS 6999 and CS 8903 must be added every semester by helpdesk@cc.ga
 ```
 (2) If, with the `train_network()` function, DLC can get to the first training step, you should still monitor a few more training steps to ensure there are no memory errors.
 
-### Modify Training Settings as Needed
+## Modify Training Settings as Needed
 (1) In dlc_model-student-2023-07-26/dlc-models-pytorch/iteration-0/dlc_modelJul26-trainset95shuffle1/train/pytorch_config.yaml, you can change the batch size to 16 or 32 so that its faster. You can also change the number of epochs, etc. to speed training. Note that this will change the performance of the model.
 
-### Fix Heatmap Function (Request to Fix Made to DLC Team by Thuan)
+## Fix Heatmap Function (Request to Fix Made to DLC Team by Thuan)
 See Thuan's details here: https://github.com/DeepLabCut/DeepLabCut/issues/2751
 (1) In the terminal you used for ssh, activate DLC environment: conda activate DEEPLABCUT .
 (2) Using the terminal, find the following path, yours may be slightly different:
@@ -284,19 +286,19 @@ def modify_pose_cfg(config_path, changes):
         yaml.safe_dump(cfg, file)
 ```
 
-# Step 1: Create the training dataset
+### Step 1: Create the training dataset
 deeplabcut.create_multianimaltraining_dataset(config_path)
 
-# Modify pose_cfg.yaml to set eval_interval to 300 and batch_size to 16
+### Modify pose_cfg.yaml to set eval_interval to 300 and batch_size to 16
 modify_pose_cfg(config_path, {'eval_interval': 300, 'batch_size': 16})
 
-# Step 2: Train the network with custom parameters
+### Step 2: Train the network with custom parameters
 deeplabcut.train_network(config_path, shuffle=1, trainingsetindex=0, maxiters=20000, saveiters=500)
 
-# Step 3: Create the test dataset for evaluation (trainIndices=False creates test data)
+### Step 3: Create the test dataset for evaluation (trainIndices=False creates test data)
 deeplabcut.create_multianimaltraining_dataset(config_path, trainIndices=False)
 
-# Step 4: Evaluate the trained network and save evaluation metrics
+### Step 4: Evaluate the trained network and save evaluation metrics
 ```
 evaluation_file = os.path.join(output_dir, 'evaluation_results.csv')
 deeplabcut.evaluate_network(
@@ -308,7 +310,7 @@ deeplabcut.evaluate_network(
 )
 ```
 
-# Step 5: Visualize the predicted keypoints on the original video and save the video
+### Step 5: Visualize the predicted keypoints on the original video and save the video
 ```
 video_path = "/path/to/video.mp4"  # Update this to the path of your video file
 labeled_video_dir = os.path.join(output_dir, 'labeled_videos')
@@ -316,7 +318,7 @@ if not os.path.exists(labeled_video_dir):
     os.makedirs(labeled_video_dir)
 ```
 
-# Generate labeled video with predictions
+### Generate labeled video with predictions
 ```
 deeplabcut.create_labeled_video(
     config_path, 
@@ -328,7 +330,7 @@ deeplabcut.create_labeled_video(
 )
 ```
 
-# Step 6: Extract predicted points to a CSV file and save them
+### Step 6: Extract predicted points to a CSV file and save them
 ```
 analyzed_data_dir = os.path.join(output_dir, 'analyzed_data')
 if not os.path.exists(analyzed_data_dir):
@@ -344,7 +346,7 @@ deeplabcut.analyze_videos(
 )
 ```
 
-# Step 7: Generate and save labeled frames for further inspection
+### Step 7: Generate and save labeled frames for further inspection
 ```
 labeled_frames_dir = os.path.join(output_dir, 'labeled_frames')
 if not os.path.exists(labeled_frames_dir):
