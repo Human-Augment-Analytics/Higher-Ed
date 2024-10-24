@@ -1,0 +1,2 @@
+%Training dataset,Shuffle number,Training epochs,Detector epochs (TD only),pcutoff,train rmse,train rmse_pcutoff,train mAP,train mAR,train rmse_detections,train rmse_detections_pcutoff,test rmse,test rmse_pcutoff,test mAP,test mAR,test rmse_detections,test rmse_detections_pcutoff
+0.95,1,115,-1,0.01,13.21,13.21,61.82,72.98,11.37,11.37,16.67,16.67,52.95,65.16,14.36,14.36
