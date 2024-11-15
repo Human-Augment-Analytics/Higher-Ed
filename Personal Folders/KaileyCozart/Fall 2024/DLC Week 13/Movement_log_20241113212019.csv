@@ -1,0 +1,7 @@
+VIDEO,ANIMAL,BODY-PART,MEASURE,VALUE
+0098_1,Animal_1,head,Distance (cm),39.4764
+0098_1,Animal_1,head,Velocity (cm/s),2.8197
+0098_2,Animal_1,head,Distance (cm),32.7571
+0098_2,Animal_1,head,Velocity (cm/s),2.5198
+0098_3,Animal_1,head,Distance (cm),0.0
+0098_3,Animal_1,head,Velocity (cm/s),0.0
