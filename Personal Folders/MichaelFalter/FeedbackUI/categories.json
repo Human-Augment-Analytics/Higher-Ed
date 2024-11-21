@@ -1,0 +1,28 @@
+{
+    "Clarity and Presentation Metrics": [
+        "Legibility of Figures",
+        "Conciseness",
+        "Organization and Flow",
+        "Visual Appeal"
+    ],
+    "Content Understanding and Communication Metrics": [
+        "Accessibility for Non-Experts",
+        "Data Explanation",
+        "Completeness of Information"
+    ],
+    "Technical and Analytical Depth Metrics": [
+        "Accuracy of Technical Content",
+        "Depth of Analysis",
+        "Appropriateness of Methodology"
+    ],
+    "Progress and Responsiveness Metrics": [
+        "Incorporation of Feedback",
+        "Timeliness and Consistency",
+        "Overall Improvement Over Time"
+    ],
+    "Engagement and Interaction Metrics": [
+        "Questions Raised and Addressed",
+        "Follow-up Discussions",
+        "Feedback Impact"
+    ]
+}
