@@ -1,5 +1,9 @@
 # Research Feedback Analysis Tool
 
+Last update: 12/06/2024
+
+Note: The FeedbackUI version will be the more up-to-date version of this tool if development continues.
+
 This tool provides a way to generate and analyze structured feedback on research reports. It includes two main scripts:
 
 1. **Feedback Template Generator**: This script creates a standardized Word document template for reviewers to evaluate research quality across multiple categories, including:
