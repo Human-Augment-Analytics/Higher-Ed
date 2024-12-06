@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def parse_feedback_doc(doc_path):
     """
-    Parses a Word document that should be a template from feedback-template.py
+    Parses a Word document that should be a template from feedback-template-script-ver.py
     and extracts reviewer, researcher, and feedback category information.
 
     Parameters:

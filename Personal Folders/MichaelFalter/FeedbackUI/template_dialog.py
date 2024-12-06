@@ -15,6 +15,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 from template_generator import TemplateGenerator
+import json
 
 
 class TemplateDialog(QDialog):
@@ -23,11 +24,9 @@ class TemplateDialog(QDialog):
         self.setWindowTitle("Generate Feedback Template")
         self.setMinimumSize(400, 400)
 
-        # Store categories and metrics
-        self.categories = {
-            "Clarity and Presentation Metrics": ["Grammar", "Formatting"],
-            "Content Understanding Metrics": ["Comprehension", "Accuracy"],
-        }
+        # Load default categories
+        with open("categories.json", "r") as file:
+            self.categories = json.load(file)
 
         # Default filename
         self.default_filename = "feedback_template.docx"
@@ -43,9 +42,11 @@ class TemplateDialog(QDialog):
         self.reviewer_name_input = QLineEdit()
         self.group_name_input = QLineEdit()
         self.researcher_name_input = QLineEdit()
+        self.date_input = QLineEdit()
         details_layout.addRow("Reviewer Name:", self.reviewer_name_input)
         details_layout.addRow("Group Name:", self.group_name_input)
         details_layout.addRow("Researcher Name:", self.researcher_name_input)
+        details_layout.addRow("Date:", self.date_input)
         layout.addLayout(details_layout)
 
         # Category and Metric section
@@ -64,10 +65,10 @@ class TemplateDialog(QDialog):
         self.generate_button.clicked.connect(self.generate_template)
         layout.addWidget(self.generate_button)
 
-        # Add category button
-        self.add_category_button = QPushButton("Add Category")
-        self.add_category_button.clicked.connect(self.add_category_ui)
-        layout.addWidget(self.add_category_button)
+        # ToDo: Add category button
+        # self.add_category_button = QPushButton("Add Category")
+        # self.add_category_button.clicked.connect(self.add_category_ui)
+        # layout.addWidget(self.add_category_button)
 
     def populate_categories_ui(self):
         """
@@ -133,21 +134,15 @@ class TemplateDialog(QDialog):
             reviewer_name = self.reviewer_name_input.text().strip()
             group_name = self.group_name_input.text().strip()
             researcher_name = self.researcher_name_input.text().strip()
+            date = self.date_input.text().strip()
 
-            # if not reviewer_name or not group_name or not researcher_name:
-            #     QMessageBox.warning(
-            #         self,
-            #         "Missing Information",
-            #         "Please fill out Reviewer Name, Group Name, and Researcher Name.",
-            #     )
-            #     return
-
-            generator = TemplateGenerator()#self.categories)
+            generator = TemplateGenerator(self.categories)
             generator.generate_template(
                 filename,
                 reviewer_name=reviewer_name,
                 group_name=group_name,
                 researcher_name=researcher_name,
+                date=date,
             )
             QMessageBox.information(self, "Success", f"Template saved as {filename}")
         else:
